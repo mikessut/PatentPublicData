@@ -3,6 +3,7 @@ package gov.uspto.patent.doc.xml.items;
 import java.util.ArrayList;
 import java.util.List;
 
+import gov.uspto.patent.model.RelationType;
 import org.dom4j.Node;
 
 import gov.uspto.parser.dom4j.ItemReader;
@@ -47,12 +48,14 @@ public class RelationNode extends ItemReader<List<DocumentId>> {
 		Node parentN = itemNode.selectSingleNode(REL_PARENT);
 		DocumentId parentDocId = new DocumentIdNode(parentN).read();
 		parentDocId.setType(docIdType);
+		parentDocId.setRelType(RelationType.PARENT_APP);
 		docIds.add(parentDocId);
 
 		Node parentGrantN = itemNode.selectSingleNode(REL_PARENT_GRANT);
 		if (parentGrantN != null) {
 			DocumentId parentGrantId = new DocumentIdNode(parentGrantN).read();
 			parentGrantId.setType(docIdType);
+			parentGrantId.setRelType(RelationType.PARENT_GRANT);
 			docIds.add(parentGrantId);
 		}
 
@@ -60,6 +63,7 @@ public class RelationNode extends ItemReader<List<DocumentId>> {
 		if (pctdN != null) {
 			DocumentId docId = new DocumentIdNode(pctdN).read();
 			docId.setType(docIdType);
+			docId.setRelType(RelationType.PARENT_PCT);
 			if (!docId.equals(parentDocId)) {
 				docIds.add(docId);
 			}
@@ -69,6 +73,7 @@ public class RelationNode extends ItemReader<List<DocumentId>> {
 		if (childN != null) {
 			DocumentId childDocId = new DocumentIdNode(childN).read();
 			childDocId.setType(docIdType);
+			childDocId.setRelType(RelationType.CHILD);
 			if (!childDocId.equals(parentDocId)) {
 				docIds.add(childDocId);
 			}

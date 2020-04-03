@@ -116,9 +116,17 @@ public class JsonMapperStream implements DocumentBuilder<Patent>, Closeable {
 		jGenerator.writeFieldName("relatedIds");
 		jGenerator.writeStartArray();
 		for (DocumentId did : patent.getRelationIds()) {
+			System.out.println(did);
 			jGenerator.writeStartObject();
 			jGenerator.writeStringField("id", did.getId());
 			jGenerator.writeStringField("type", did.getType().toString());
+			//jGenerator.writeStringField("relation_type", did.getRelType().toString());
+			if (did.getRelType() == null) {
+				jGenerator.writeNullField("relation_type");
+			} else {
+				jGenerator.writeStringField("relation_type", did.getRelType().toString());
+			}
+
 			jGenerator.writeEndObject();
 		}
 		jGenerator.writeEndArray();

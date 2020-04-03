@@ -10,6 +10,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 
 import gov.uspto.patent.InvalidDataException;
+import gov.uspto.patent.model.entity.RelationshipType;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 
 /**
@@ -108,6 +109,8 @@ public class DocumentId implements Comparable<DocumentId> {
 	private String rawText; // capture raw string before parsing into parts; mainly for debugging.
 	private boolean allowLeadingZeros; // Need this for the one case in greenbook where the appId has a zero
 
+	private RelationType relType;
+
 	/*
 	 * Parsing of Document Id into its parts, such as Citation PatentIds.
 	 */
@@ -160,6 +163,9 @@ public class DocumentId implements Comparable<DocumentId> {
 		Preconditions.checkNotNull(docIdType, "DocumentIdType can not be set to Null");
 		this.docIdType = docIdType;
 	}
+
+	public void setRelType(RelationType relType) { this.relType = relType;	}
+	public RelationType getRelType() { return this.relType; }
 
 	public DocumentIdType getType() {
 		return docIdType;
